@@ -1,0 +1,25 @@
+Script started on Mon 01 Dec 2025 10:50:27 PM EST
+]0;shivansh@login00.darwin:~/cisc372_nbody[?1034h[(ea-cisc372-silber:shivansh)@login00.darwin cisc372_nbody]$ make clean
+rm -f *.o nbody nbody_cuda
+]0;shivansh@login00.darwin:~/cisc372_nbody[(ea-cisc372-silber:shivansh)@login00.darwin cisc372_nbody]$ vpkg_require cuda
+Adding package `cuda/11.3.1-465.19.01` to your environment
+]0;shivansh@login00.darwin:~/cisc372_nbody[(ea-cisc372-silber:shivansh)@login00.darwin cisc372_nbody]$ make nbody_cuda
+nvcc -arch=sm_70   -c nbody.c -o nbody_cuda.o
+make: Circular compute.cu <- compute.cu.o dependency dropped.
+nvcc -arch=sm_70   -c compute.cu -o compute.cu.o
+nvcc -arch=sm_70   nbody_cuda.o compute.cu.o -o nbody_cuda -lm
+]0;shivansh@login00.darwin:~/cisc372_nbody[(ea-cisc372-silber:shivansh)@login00.darwin cisc372_nbody]$ salloc --ntasks=1 --cpus-per-task=1 --gpus=1 --partition=gpu-v100
+salloc: Granted job allocation 5923469
+salloc: Waiting for resource configuration
+salloc: Nodes r2v00 are ready for job
+]0;shivansh@:~/cisc372_nbody[?1034h[shivansh@r2v00 cisc372_nbody]$ srun ./nbody_cuda
+This took a total time of 1.900000 seconds
+srun: error: r2v00: task 0: Exited with exit code 209
+]0;shivansh@:~/cisc372_nbody[shivansh@r2v00 cisc372_nbody]$ exit
+logout
+srun: error: r2v00: task 0: Exited with exit code 209
+salloc: Relinquishing job allocation 5923469
+]0;shivansh@login00.darwin:~/cisc372_nbody[(ea-cisc372-silber:shivansh)@login00.darwin cisc372_nbody]$ exit
+exit
+
+Script done on Mon 01 Dec 2025 10:51:24 PM EST
